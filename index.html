@@ -19,8 +19,7 @@
     function execDaumPostcode() {
       new daum.Postcode({
         oncomplete: function(data) {
-          var jibunAddress = ""
-          var buildingAddress = ""
+          var fullAddress = ""
           var roadAddress = ""
           
           if (data.roadAddress == "") {
@@ -30,22 +29,16 @@
           }
           
 
-          
-          if (data.jibunAddress == "") {
-            jibunAddress = data.autoJibunAddress
-          } else if (data.autoJibunAddress == "") {
-            jibunAddress = data.jibunAddress
-          }
-          
-          if (data.buildingName !== '') {
-            buildingAddress += data.roadAddress + ' (' + data.buildingName + ')'
+          if (data.buildingName == "") {
+              fullAddress = roadAddress
+          } else {
+              fullAddress += roadAddress + ' (' + data.buildingName + ')'
           }
 
           var postData = {
               roadAddress : roadAddress,
-              jibunAddress : jibunAddress,
               zonecode : data.zonecode,
-              buildingAddress: buildingAddress
+              buildingAddress: fullAddress
           };
           window.postMessageToiOS(postData);
         },
