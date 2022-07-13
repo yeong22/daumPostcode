@@ -20,17 +20,24 @@
       new daum.Postcode({
         oncomplete: function(data) {
           var jibunAddress = ""
+          var buildingAddress = ""
+          
 
           if (data.jibunAddress == "") {
             jibunAddress = data.autoJibunAddress
           } else if (data.autoJibunAddress == "") {
             jibunAddress = data.jibunAddress
           }
+          
+          if (data.buildingName !== '') {
+            buildingAddress += data.roadAddress + ' (' + data.buildingName + ')'
+          }
 
           var postData = {
               roadAddress : data.roadAddress,
               jibunAddress : jibunAddress,
-              zonecode : data.zonecode
+              zonecode : data.zonecode,
+            buildingAddress: buildingAddress
           };
           window.postMessageToiOS(postData);
         },
@@ -52,4 +59,3 @@
   </script>
   </body>
 </html>
-출처: https://nsios.tistory.com/158 [NamS의 iOS일기:티스토리]
