@@ -21,8 +21,16 @@
         oncomplete: function(data) {
           var jibunAddress = ""
           var buildingAddress = ""
+          var roadAddress = ""
+          
+          if (data.roadAddress == "") {
+            roadAddress = data.autoRoadAddress
+          } else if (data.autoRoadAddress == "") {
+            roadAddress = data.roadAddress
+          }
           
 
+          
           if (data.jibunAddress == "") {
             jibunAddress = data.autoJibunAddress
           } else if (data.autoJibunAddress == "") {
@@ -34,10 +42,10 @@
           }
 
           var postData = {
-              roadAddress : data.roadAddress,
+              roadAddress : roadAddress,
               jibunAddress : jibunAddress,
               zonecode : data.zonecode,
-            buildingAddress: buildingAddress
+              buildingAddress: buildingAddress
           };
           window.postMessageToiOS(postData);
         },
